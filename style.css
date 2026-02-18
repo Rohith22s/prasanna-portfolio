@@ -308,7 +308,8 @@
 
       .info-box {
         position: relative;
-        background: url("https://images.unsplash.com/photo-1498050108023-c5249f4df085") center/cover no-repeat;
+        background: transparent;
+        /* Remove image */
         min-height: 25vh;
         display: flex;
         justify-content: center;
@@ -316,21 +317,7 @@
         border-radius: 0;
       }
 
-      .info-box::before {
-        /* darker overlay for mobile so text stays legible */
-        background: rgba(0, 0, 0, 0.42);
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        content: "";
-        position: absolute;
-        z-index: 0;
-        pointer-events: none;
-        opacity: 1;
-        transform: none;
-        animation: none;
-      }
+
 
       .info-content {
         position: relative;
@@ -628,8 +615,8 @@
       /* Was 100vh in slid.html, sticking to it for now */
       overflow: hidden;
       transition: background var(--project-all-transition);
-      background: #3674be;
-      /* Default bg */
+      background: #f8f9fa;
+      /* Plain light background */
       margin-top: 2rem;
     }
 
@@ -641,7 +628,8 @@
       transform: translateY(-50%);
       width: 700px;
       height: 700px;
-      background: rgba(255, 255, 255, .8);
+      background: rgba(0, 0, 0, 0.05);
+      /* Subtle dark blob for light theme */
       border-radius: 50%;
       filter: blur(200px);
       pointer-events: none;
@@ -716,7 +704,8 @@
       height: 100%;
       border-radius: 40px 0 0 40px;
       padding: 0 70px;
-      color: #fff;
+      color: #333;
+      /* Dark text */
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -730,60 +719,26 @@
     .project-info-box .project-info-item.active {
       transform: translateX(0);
       opacity: 1;
-      box-shadow: 0 0 30px rgba(0, 0, 0, .2);
+      /* removed box-shadow for cleaner look on light bg, or make it subtle */
+      /* box-shadow: 0 0 30px rgba(0, 0, 0, .2); */
     }
 
     .project-info-item h2 {
       font-size: 30px;
-      color: #fff;
+      color: #111;
+      /* Darker heading */
     }
 
     .project-info-item h2:nth-child(2) {
       margin: 20px 0;
     }
 
-    .project-colors span {
-      display: inline-block;
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      margin-left: 10px;
-      cursor: pointer;
-    }
-
-    .project-colors span.active {
-      outline: 3px solid #fff;
-    }
-
-    /* Colors - applied inline or via JS, but keeping classes for checks */
-    .project-colors span:nth-child(1) {
-      background: #3674be;
-    }
-
-    .project-colors span:nth-child(2) {
-      background: #d26181;
-    }
-
-    .project-colors span:nth-child(3) {
-      background: #ceb13d;
-    }
-
-    .project-colors span:nth-child(4) {
-      background: #c6414c;
-    }
-
-    .project-colors span:nth-child(5) {
-      background: #171f2b;
-    }
-
-    .project-colors span:nth-child(6) {
-      background: #50aa61;
-    }
 
     .project-info-item p {
       font-size: 16px;
       margin: 20px 0 25px;
-      color: #eee;
+      color: #555;
+      /* Dark gray text */
     }
 
     .project-info-item .project-btn {
@@ -792,13 +747,20 @@
       align-items: center;
       width: 180px;
       height: 47px;
-      background: #fff;
+      background: #333;
+      /* Dark button */
       border-radius: 40px;
       box-shadow: 0 0 10px rgba(0, 0, 0, .1);
       font-size: 16px;
-      color: #333;
+      color: #fff;
+      /* White text on button */
       text-decoration: none;
       font-weight: 600;
+      transition: background 0.3s ease;
+    }
+
+    .project-info-item .project-btn:hover {
+      background: #000;
     }
 
     .project-navigation {
@@ -817,37 +779,184 @@
       align-items: center;
       width: 50px;
       height: 50px;
-      background: rgba(255, 255, 255, .2);
+      background: rgba(0, 0, 0, .1);
+      /* Darker semi-transparent bg */
       border-radius: 50%;
       cursor: pointer;
       font-size: 30px;
-      color: #fff;
+      color: #333;
+      /* Dark icon */
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .project-navigation span:hover {
+      background: rgba(0, 0, 0, .2);
+      color: #000;
     }
 
     /* Responsive adjustments */
     @media (max-width: 991px) {
       .project-carousel {
         min-height: auto;
-        height: 800px;
+        /* Allow height to shrink to content, removing empty space */
+        height: auto;
+        padding-bottom: 0px;
+        /* Further reduced from 20px */
+        overflow: hidden;
+        /* Ensure wheel doesn't cause scrollbar */
       }
 
       .project-img-box {
-        width: 800px;
-        height: 800px;
-        left: -20%;
-        top: 30%;
+        width: 100%;
+        /* Use full width container */
+        height: 220px;
+        /* Reduced from 300px */
+        left: 0;
+        top: 0;
+        transform: none;
+        /* Remove desktop centering transform */
+        position: relative;
+        margin: 0 auto 10px;
+        /* Reduced from 30px */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      /* RESET ROTATION: Force slider to be static */
+      .project-img-box .project-img-list {
+        height: 100%;
+        width: 100%;
+        transform: none !important;
+      }
+
+      .project-img-slider {
+        height: 100%;
+        width: 100%;
+        transform: none !important;
+        position: relative;
+      }
+
+      /* CARD STYLE: Stack items on top of each other */
+      .project-img-slider .project-img-item {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) !important;
+        /* Center item in box */
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        /* Hidden by default */
+        transition: opacity 0.5s ease, transform 0.5s ease;
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      /* ACTIVE CARD: Fade in */
+      .project-img-slider .project-img-item.active {
+        opacity: 1;
+        z-index: 2;
+        transform: translate(-50%, -50%) scale(1) !important;
+      }
+
+      /* Ensure the inner wrapper doesn't rotate either */
+      .project-img-item .project-item {
+        transform: none !important;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+      }
+
+      /* Image Styling */
+      .project-img-item .project-item img {
+        max-width: 200px;
+        /* Reduced from 250px */
+        max-height: 200px;
+        transform: none !important;
+        /* No rotation on image */
+        filter: none !important;
+        /* No blur */
+        border-radius: 20px;
+        /* Rounded corners for card look */
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        object-fit: contain;
+        /* Ensure aspect ratio is kept */
       }
 
       .project-info-box {
-        width: 90%;
-        right: 5%;
-        height: 400px;
-        top: 70%;
+        width: 100%;
+        left: 0;
+        right: 0;
+        top: auto;
+        /* Let it flow */
+        bottom: 0;
+        height: auto;
+        transform: none;
+        padding: 0 20px;
+        pointer-events: none;
+        position: relative;
+        /* Normal flow */
+      }
+
+      .project-info-item {
+        padding: 0;
+        border-radius: 0;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+        /* Center text */
+        pointer-events: auto;
+        position: absolute;
+        /* Keep absolute for crossfade */
+        width: 100%;
+        left: 0;
+        top: 0;
+        transform: translateX(20px);
+        opacity: 0;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+      }
+
+      .project-info-item.active {
+        transform: translateX(0);
+        opacity: 1;
+        position: relative;
+      }
+
+      .project-info-item h2 {
+        font-size: 24px;
+      }
+
+      .project-info-item p {
+        font-size: 14px;
+        margin: 5px 0 10px;
+        /* Reduced vertical margins */
       }
 
       .project-navigation {
         left: 50%;
         transform: translateX(-50%);
-        bottom: 2%;
+        bottom: auto;
+        width: 160px;
+        position: relative;
+        margin-top: 10px;
+        /* Small gap between text and buttons */
+      }
+
+      .project-navigation span {
+        width: 40px;
+        height: 40px;
+        font-size: 24px;
+      }
+
+      /* Reduce space between Project and About (footer) on mobile */
+      footer {
+        padding-top: 1.5rem !important;
+        /* Reduced from 3rem (pt-5) */
       }
     }
