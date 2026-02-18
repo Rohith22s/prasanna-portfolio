@@ -115,8 +115,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (activeInfo) activeInfo.classList.remove('active');
     infoItems[index].classList.add('active');
 
-    // Change background of the carousel section
-    projectCarousel.style.background = colors[index];
+    // Change background of the carousel section - REMOVED per user request
+    // projectCarousel.style.background = colors[index];
   }
 
   nextBtn.addEventListener('click', () => {
